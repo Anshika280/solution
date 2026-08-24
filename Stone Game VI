@@ -1,0 +1,19 @@
+class Solution {
+    public int stoneGameVI(int[] aliceValues, int[] bobValues) {
+        int[] freq = new int[201];
+        for (int i = 0; i < aliceValues.length; i++)
+            freq[aliceValues[i] + bobValues[i]]++;
+
+        int diff = -Arrays.stream(bobValues).sum();
+        int pos = 0;
+        for (int v = 200; v > 1; v--) {
+            int c = freq[v];
+            if (c > 0) {
+                diff += v * (pos % 2 == 0 ? (c + 1) / 2 : c / 2);
+                pos += c;
+            }
+        }
+
+        return Integer.signum(diff);
+    }
+}
