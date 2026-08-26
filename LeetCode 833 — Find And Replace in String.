@@ -1,0 +1,48 @@
+class Solution {
+    public String findReplaceString(String s, int[] indices, 
+                                    String[] sources, String[] targets) {
+
+        int n = s.length();
+
+        // Store replacement information at each index
+        int[] replacement = new int[n];
+
+        // -1 means no replacement
+        for (int i = 0; i < n; i++) {
+            replacement[i] = -1;
+        }
+
+        // Check all replacement operations
+        for (int i = 0; i < indices.length; i++) {
+            int index = indices[i];
+
+            // Check if source occurs at this index in original s
+            if (s.startsWith(sources[i], index)) {
+                replacement[index] = i;
+            }
+        }
+
+        StringBuilder result = new StringBuilder();
+
+        int i = 0;
+
+        while (i < n) {
+
+            // There is a valid replacement at this index
+            if (replacement[i] != -1) {
+                int operation = replacement[i];
+
+                result.append(targets[operation]);
+
+                // Skip the original source substring
+                i += sources[operation].length();
+            } 
+            else {
+                result.append(s.charAt(i));
+                i++;
+            }
+        }
+
+        return result.toString();
+    }
+}
